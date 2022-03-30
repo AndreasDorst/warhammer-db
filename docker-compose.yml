@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  python:
+    container_name: python
+    build: ./src
+    volumes:
+      - ./src/:/usr/src/app/
+    ports:
+      - "3000"
+    env_file:
+      - .env.dev
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:14-alpine
+    ports:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=war_hammer_db
+
+volumes:
+  postgres_data:
